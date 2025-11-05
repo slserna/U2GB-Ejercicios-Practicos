@@ -16,17 +16,21 @@ import java.util.Stack;
 import java.util.Scanner;
 
 /**
- * Ejercicio 6: Decimal a binario.
- * 
+ * Ejercicio 6: Conversión decimal a binario con tipo genérico <T>.
+ *
  * Objetivo:
- * - Convertir un número decimal a binario utilizando una pila.
+ * - Convertir un número decimal a binario utilizando una pila genérica.
  */
 public class Binario {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Ingrese número: ");
-        int num = sc.nextInt();
+
+    public static <T extends Number> void convertirABinario(T numero) {
         Stack<Integer> pila = new Stack<>();
+        int num = numero.intValue();
+
+        if (num == 0) {
+            System.out.println("Binario: 0");
+            return;
+        }
 
         while (num > 0) {
             pila.push(num % 2);
@@ -37,7 +41,17 @@ public class Binario {
         while (!pila.isEmpty()) {
             System.out.print(pila.pop());
         }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Ingrese número decimal: ");
+        int num = sc.nextInt();
+
+        // Usa el método genérico
+        convertirABinario(num);
     }
 }
-// Entrada: 13 → Salida: 1101
+
 

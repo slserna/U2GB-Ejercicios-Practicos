@@ -15,18 +15,22 @@ package Pilas;
 import java.util.Stack;
 
 /**
- * Ejercicio 5: Balanceo de paréntesis.
- * 
+ * Ejercicio 5: Balanceo de símbolos con tipo genérico <T>.
+ *
  * Objetivo:
- * - Verificar si los paréntesis de una expresión están balanceados usando una pila.
+ * - Verificar si los símbolos están balanceados usando una pila genérica.
  */
 public class Balanceo {
 
-    public static boolean estaBalanceada(String expr) {
-        Stack<Character> pila = new Stack<>();
+    public static <T> boolean estaBalanceada(String expr, T apertura, T cierre) {
+        Stack<T> pila = new Stack<>();
         for (char c : expr.toCharArray()) {
-            if (c == '(') pila.push(c);
-            else if (c == ')') {
+            // Convertir el carácter actual al tipo genérico (solo simbólico aquí)
+            @SuppressWarnings("unchecked")
+            T simbolo = (T) Character.valueOf(c);
+
+            if (simbolo.equals(apertura)) pila.push(simbolo);
+            else if (simbolo.equals(cierre)) {
                 if (pila.isEmpty()) return false;
                 pila.pop();
             }
@@ -35,8 +39,8 @@ public class Balanceo {
     }
 
     public static void main(String[] args) {
-        System.out.println(estaBalanceada("((2+3)*5)")); // true
-        System.out.println(estaBalanceada("((2+3)*5"));  // false
+        System.out.println(estaBalanceada("((2+3)*5)", '(', ')'));    // true
+        System.out.println(estaBalanceada("((2+3)*5", '(', ')'));     // false
+        System.out.println(estaBalanceada("{[a+b]*(c+d)}", '{', '}')); // true
     }
 }
-// Salida esperada: true / false

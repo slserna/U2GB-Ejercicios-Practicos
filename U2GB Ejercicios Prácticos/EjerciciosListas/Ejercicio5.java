@@ -4,32 +4,51 @@
  */
 package Five;
 
-/**
- *
- @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
- * Grupo: GTID0141
- * EJERCICIO 5 -----
- */
 import java.util.Scanner;
 
-class Nodo {
-    char dato;
-    Nodo ant, sig;
+/**
+ * EJERCICIO 5 -----
+ * 
+ * @author 12241
+ * @Autor Sara Lizbeth Serna Rodriguez
+ * Grupo: GTID0141
+ * 
+ * Objetivo:
+ * - Implementar una lista doblemente enlazada genérica.
+ * - Insertar caracteres de una cadena en la lista.
+ * - Ordenar los elementos alfabéticamente utilizando el método de burbuja.
+ * 
+ * Descripción:
+ * Este programa construye una lista doblemente enlazada con los caracteres
+ * de una cadena ingresada por el usuario. Luego, los ordena alfabéticamente
+ * y muestra la lista antes y después de la ordenación.
+ * 
+ * Parametrización:
+ * - Se utiliza el tipo genérico <T> para permitir manejar distintos tipos de datos
+ *   en la lista, aunque en este caso se usa con caracteres.
+ */
 
-    public Nodo(char dato) {
-        this.dato = dato;
-        this.ant = null;
-        this.sig = null;
+public class Ejercicio5<T extends Comparable<T>> {
+    Nodo<T> cabeza, cola;
+
+    /**
+     * Clase interna Nodo parametrizada con tipo T.
+     * Representa un elemento de la lista doblemente enlazada.
+     */
+    class Nodo<T> {
+        T dato;
+        Nodo<T> ant, sig;
+
+        public Nodo(T dato) {
+            this.dato = dato;
+            this.ant = null;
+            this.sig = null;
+        }
     }
-}
 
-public class Ejercicio5 {
-    Nodo cabeza, cola;
-
-    // Insertar al final
-    void insertarFinal(char c) {
-        Nodo nuevo = new Nodo(c);
+    /** Inserta un elemento al final de la lista */
+    void insertarFinal(T c) {
+        Nodo<T> nuevo = new Nodo<>(c);
         if (cabeza == null) {
             cabeza = cola = nuevo;
         } else {
@@ -39,16 +58,16 @@ public class Ejercicio5 {
         }
     }
 
-    // Ordenar alfabéticamente (burbuja)
+    /** Ordena la lista alfabéticamente mediante el método burbuja */
     void ordenarLista() {
         if (cabeza == null) return;
         boolean cambiado;
         do {
             cambiado = false;
-            Nodo actual = cabeza;
+            Nodo<T> actual = cabeza;
             while (actual.sig != null) {
-                if (actual.dato > actual.sig.dato) {
-                    char temp = actual.dato;
+                if (actual.dato.compareTo(actual.sig.dato) > 0) {
+                    T temp = actual.dato;
                     actual.dato = actual.sig.dato;
                     actual.sig.dato = temp;
                     cambiado = true;
@@ -58,9 +77,9 @@ public class Ejercicio5 {
         } while (cambiado);
     }
 
-    // Mostrar lista desde el inicio
+    /** Muestra la lista desde el inicio */
     void mostrarLista() {
-        Nodo aux = cabeza;
+        Nodo<T> aux = cabeza;
         while (aux != null) {
             System.out.print(aux.dato + " ");
             aux = aux.sig;
@@ -68,14 +87,15 @@ public class Ejercicio5 {
         System.out.println();
     }
 
+    /** Método principal: ejecuta el programa */
     public static void main(String[] args) {
-        Ejercicio5 lista = new Ejercicio5();
+        Ejercicio5<Character> lista = new Ejercicio5<>();
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Ingresa una cadena: ");
         String cadena = sc.nextLine();
 
-        // Construir lista doblemente enlazada
+        // Construir lista doblemente enlazada con los caracteres
         for (char c : cadena.toCharArray()) {
             lista.insertarFinal(c);
         }
@@ -88,4 +108,3 @@ public class Ejercicio5 {
         lista.mostrarLista();
     }
 }
-

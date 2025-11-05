@@ -5,27 +5,40 @@
 package Pilas;
 
 /**
- @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * @author 12241
+ * @Autor Sara Lizbeth Serna Rodríguez
  * Grupo: GTID0141
+ * Fecha: 30/10/25
  * EJERCICIO DE PILA -----
- * 30/10/25
  */
+
 import java.util.Stack;
 
 /**
+ * Clase: VerificarPilaVacia<T>
+ * 
  * Ejercicio 3: Verificar si una pila está vacía.
  * 
  * Objetivo:
- * - Comprobar el uso del método isEmpty().
+ * - Comprobar el uso del método isEmpty() en una pila genérica.
+ * 
+ * Descripción:
+ * 1. Se crea una pila vacía.
+ * 2. Se verifica si está vacía.
+ * 3. Se agrega un elemento.
+ * 4. Se vuelve a verificar su estado.
+ * 
+ * Parametrización:
+ * - Se utiliza Stack<T> para manejar cualquier tipo de dato.
  */
-public class PilaVacia {
+public class VerificarPilaVacia<T> {
+
     public static void main(String[] args) {
+        // Pila genérica de enteros
         Stack<Integer> pila = new Stack<>();
+
         System.out.println("¿Está vacía la pila? " + pila.isEmpty());
         pila.push(1);
         System.out.println("¿Está vacía la pila? " + pila.isEmpty());
     }
 }
-// Salida esperada: true, false
-

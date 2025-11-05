@@ -5,44 +5,53 @@
 package Pilas;
 
 /**
- *
- @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * @author 12241
+ * @Autor Sara Lizbeth Serna Rodríguez
  * Grupo: GTID0141
+ * Fecha: 30/10/25
  * EJERCICIO DE PILA -----
- * 30/10/25
  */
+
 import java.util.Scanner;
 import java.util.Stack;
 
 /**
- * Ejercicio 2: Pila de nombres.
+ * Ejercicio 2: Pila de nombres (versión parametrizada).
  * 
  * Objetivo:
- * - Permitir al usuario ingresar nombres y mostrarlos en orden inverso.
+ * - Permitir al usuario ingresar nombres y mostrarlos en orden inverso utilizando una pila genérica.
  * 
- * Lógica:
+ * Descripción:
  * 1. Leer nombres hasta que el usuario escriba "FIN".
  * 2. Apilar cada nombre.
- * 3. Desapilar e imprimir en orden inverso.
+ * 3. Desapilar los nombres para mostrarlos en orden inverso.
+ * 
+ * Parametrización:
+ * - Se utiliza una pila genérica Stack<T> donde T = String.
  */
-public class Nombres{
+
+public class PilaNombres<T> {
+
+    /**
+     * Método que ejecuta la lógica principal del programa.
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Stack<String> pila = new Stack<>();
-        String nombre;
 
+        System.out.println("=== Ingreso de nombres ===");
         while (true) {
             System.out.print("Ingrese un nombre (FIN para salir): ");
-            nombre = sc.nextLine();
+            String nombre = sc.nextLine();
             if (nombre.equalsIgnoreCase("FIN")) break;
             pila.push(nombre);
         }
 
-        System.out.println("Nombres en orden inverso:");
+        System.out.println("\nNombres en orden inverso:");
         while (!pila.isEmpty()) {
             System.out.println(pila.pop());
         }
+
+        sc.close();
     }
 }
-// Ejemplo: Ana, Luis, Pedro, FIN → Salida: Pedro, Luis, Ana

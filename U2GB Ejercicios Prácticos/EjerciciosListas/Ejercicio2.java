@@ -4,119 +4,161 @@
  */
 package Five;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
- *
- @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * Clase: ListaPalabras<T>
+ * 
+ * Objetivo:
+ * - Leer, almacenar, eliminar y escribir palabras desde/hacia un archivo de texto.
+ * - Implementar una lista enlazada genérica con encapsulamiento.
+ * 
+ * Autor: Sara Lizbeth Serna Rodríguez  
  * Grupo: GTID0141
- * EJERCICIO 2 -----
  */
+public class ListaPalabras<T> {
 
-public class Ejercicio2 {
-    Nodo cabeza;
-    
-    class Nodo {
-    String palabra;
-    Nodo siguiente;
+    /** Clase interna Nodo con encapsulamiento */
+    private class Nodo {
+        private T dato;
+        private Nodo siguiente;
 
-    public Nodo(String palabra) {
-        this.palabra = palabra;
-        this.siguiente = null;
-    }
-}
+        public Nodo(T dato) {
+            this.dato = dato;
+            this.siguiente = null;
+        }
 
+        public T getDato() {
+            return dato;
+        }
 
-    // Insertar palabra al final
-    void insertarFinal(String palabra) {
-        Nodo nuevo = new Nodo(palabra);
-        if (cabeza == null)
-            cabeza = nuevo;
-        else {
-            Nodo aux = cabeza;
-            while (aux.siguiente != null)
-                aux = aux.siguiente;
-            aux.siguiente = nuevo;
+        public Nodo getSiguiente() {
+            return siguiente;
+        }
+
+        public void setSiguiente(Nodo siguiente) {
+            this.siguiente = siguiente;
         }
     }
 
-    // Mostrar lista
-    void mostrarLista() {
+    /** Referencia al primer nodo */
+    private Nodo cabeza;
+
+    /** Inserta un elemento al final de la lista */
+    public void insertarFinal(T valor) {
+        Nodo nuevo = new Nodo(valor);
+        if (cabeza == null) {
+            cabeza = nuevo;
+        } else {
+            Nodo aux = cabeza;
+            while (aux.getSiguiente() != null) {
+                aux = aux.getSiguiente();
+            }
+            aux.setSiguiente(nuevo);
+        }
+    }
+
+    /** Muestra los elementos de la lista en consola */
+    public void mostrarLista() {
         Nodo aux = cabeza;
         while (aux != null) {
-            System.out.print(aux.palabra + " ");
-            aux = aux.siguiente;
+            System.out.print(aux.getDato() + " ");
+            aux = aux.getSiguiente();
         }
         System.out.println();
     }
 
-    // Eliminar palabra específica
-    void eliminarPalabra(String palabra) {
-        while (cabeza != null && cabeza.palabra.equals(palabra))
-            cabeza = cabeza.siguiente;
+    /**
+     * Elimina los nodos que coincidan con el valor especificado.
+     * 
+     * @param valor valor a eliminar de la lista
+     */
+    public void eliminarElemento(T valor) {
+        while (cabeza != null && cabeza.getDato().equals(valor)) {
+            cabeza = cabeza.getSiguiente();
+        }
 
         Nodo actual = cabeza;
-        while (actual != null && actual.siguiente != null) {
-            if (actual.siguiente.palabra.equals(palabra))
-                actual.siguiente = actual.siguiente.siguiente;
-            else
-                actual = actual.siguiente;
+        while (actual != null && actual.getSiguiente() != null) {
+            if (actual.getSiguiente().getDato().equals(valor)) {
+                actual.setSiguiente(actual.getSiguiente().getSiguiente());
+            } else {
+                actual = actual.getSiguiente();
+            }
         }
     }
 
-    // Leer archivo y formar lista
-    void leerArchivo(String nombreArchivo) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
-        String linea;
-        while ((linea = br.readLine()) != null) {
-            String[] palabras = linea.split("\\s+");
-            for (String p : palabras)
-                if (!p.isEmpty()) insertarFinal(p);
+    /**
+     * Lee un archivo y agrega sus palabras (o líneas) a la lista.
+     * 
+     * @param nombreArchivo nombre del archivo de texto a leer
+     * @throws IOException si ocurre un error al leer el archivo
+     */
+    public void leerArchivo(String nombreArchivo) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] palabras = linea.split("\\s+");
+                for (String p : palabras) {
+                    if (!p.isEmpty()) {
+                        @SuppressWarnings("unchecked")
+                        T valor = (T) p;
+                        insertarFinal(valor);
+                    }
+                }
+            }
         }
-        br.close();
     }
 
-    // Escribir lista al archivo
-    void escribirArchivo(String nombreArchivo) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo));
-        Nodo aux = cabeza;
-        while (aux != null) {
-            bw.write(aux.palabra + " ");
-            aux = aux.siguiente;
+    /**
+     * Escribe el contenido de la lista en un archivo de texto.
+     * 
+     * @param nombreArchivo nombre del archivo donde se guardará la lista
+     * @throws IOException si ocurre un error al escribir el archivo
+     */
+    public void escribirArchivo(String nombreArchivo) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            Nodo aux = cabeza;
+            while (aux != null) {
+                bw.write(aux.getDato() + " ");
+                aux = aux.getSiguiente();
+            }
         }
-        bw.close();
     }
 
+    /** Método principal para probar la funcionalidad */
     public static void main(String[] args) {
-        Ejercicio2 lista = new Ejercicio2();
+        ListaPalabras<String> lista = new ListaPalabras<>();
         Scanner sc = new Scanner(System.in);
         String archivo = "palabras.txt";
 
         try {
+            // Leer contenido existente
             lista.leerArchivo(archivo);
-            System.out.println("Palabras leídas:");
+            System.out.println("\nPalabras leídas desde el archivo:");
             lista.mostrarLista();
 
-            System.out.print("Añadir nueva palabra: ");
+            // Insertar palabra nueva
+            System.out.print("\n Ingrese una palabra nueva: ");
             lista.insertarFinal(sc.nextLine());
 
-            System.out.print("Eliminar palabra: ");
-            lista.eliminarPalabra(sc.nextLine());
+            // Eliminar palabra
+            System.out.print("Ingrese una palabra a eliminar: ");
+            lista.eliminarElemento(sc.nextLine());
 
-            System.out.println("Lista final:");
+            // Mostrar lista final
+            System.out.println("\n Lista final:");
             lista.mostrarLista();
 
+            // Guardar cambios
             lista.escribirArchivo(archivo);
-            System.out.println("Archivo actualizado con éxito.");
+            System.out.println("\n Archivo actualizado correctamente.");
 
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error al manejar el archivo: " + e.getMessage());
         }
+
+        sc.close();
     }
 }

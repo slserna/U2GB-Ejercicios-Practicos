@@ -11,88 +11,105 @@ package Five;
  * Grupo: GTID0141
  * EJERCICIO 4 -----
  */
-import java.util.*;
+import java.util.Scanner;
 
+/**
+ * Clase: PolinomioCircular<T>
+ * 
+ * Objetivo:
+ * - Representar un polinomio mediante una lista circular enlazada genérica.
+ * - Permitir insertar términos, mostrar el polinomio y evaluarlo.
+ * 
+ * Autor: Sara Lizbeth Serna Rodríguez
+ * Grupo: GTID0141
+ */
+public class PolinomioCircular<T> {
 
+    /** Clase interna Nodo con encapsulamiento */
+    private class Nodo {
+        private double coeficiente;
+        private int exponente;
+        private Nodo siguiente;
 
-public class Ejercicio4 {
-    Nodo ultimo; // referencia al último nodo (lista circular)
+        public Nodo(double coeficiente, int exponente) {
+            this.coeficiente = coeficiente;
+            this.exponente = exponente;
+            this.siguiente = null;
+        }
 
-    // Insertar término al final (manteniendo la circularidad)
-    void insertarTermino(double c, int e) {
-        Nodo nuevo = new Nodo(c, e);
+        public double getCoeficiente() { return coeficiente; }
+        public int getExponente() { return exponente; }
+        public Nodo getSiguiente() { return siguiente; }
+        public void setSiguiente(Nodo siguiente) { this.siguiente = siguiente; }
+    }
+
+    private Nodo ultimo; // referencia al último nodo (lista circular)
+
+    /** Inserta un término al final del polinomio manteniendo la circularidad */
+    public void insertarTermino(double coef, int exp) {
+        Nodo nuevo = new Nodo(coef, exp);
         if (ultimo == null) {
             ultimo = nuevo;
-            ultimo.sig = ultimo;
+            ultimo.setSiguiente(ultimo);
         } else {
-            nuevo.sig = ultimo.sig;
-            ultimo.sig = nuevo;
+            nuevo.setSiguiente(ultimo.getSiguiente());
+            ultimo.setSiguiente(nuevo);
             ultimo = nuevo;
         }
     }
-    
-    class Nodo {
-    double coef;
-    int exp;
-    Nodo sig;
 
-    public Nodo(double coef, int exp) {
-        this.coef = coef;
-        this.exp = exp;
-        this.sig = null;
-    }
-}
-
-    // Mostrar polinomio recorriendo circularmente
-    void mostrarPolinomio() {
+    /** Muestra el polinomio recorriendo la lista circular */
+    public void mostrarPolinomio() {
         if (ultimo == null) return;
-        Nodo aux = ultimo.sig; // empieza desde el primero
+        Nodo aux = ultimo.getSiguiente();
         do {
-            System.out.print((aux.coef >= 0 ? "+ " : "") + aux.coef + "x^" + aux.exp + " ");
-            aux = aux.sig;
-        } while (aux != ultimo.sig);
+            System.out.print((aux.getCoeficiente() >= 0 ? "+ " : "") + aux.getCoeficiente() + "x^" + aux.getExponente() + " ");
+            aux = aux.getSiguiente();
+        } while (aux != ultimo.getSiguiente());
         System.out.println();
     }
 
-    // Evaluar el polinomio para cierto valor de x
-    double evaluar(double x) {
+    /** Evalúa el polinomio para un valor dado de x */
+    public double evaluar(double x) {
         if (ultimo == null) return 0;
         double resultado = 0;
-        Nodo aux = ultimo.sig;
+        Nodo aux = ultimo.getSiguiente();
         do {
-            resultado += aux.coef * Math.pow(x, aux.exp);
-            aux = aux.sig;
-        } while (aux != ultimo.sig);
+            resultado += aux.getCoeficiente() * Math.pow(x, aux.getExponente());
+            aux = aux.getSiguiente();
+        } while (aux != ultimo.getSiguiente());
         return resultado;
     }
 
-    // Mostrar tabla de valores
-    void mostrarTabla() {
-        System.out.println(" x\t|  P(x)");
-        System.out.println("---------------");
-        for (double x = 0.0; x <= 5.0; x += 0.5)
-            System.out.printf("%.1f\t|  %.2f%n", x, evaluar(x));
+    /** Muestra una tabla con los valores del polinomio para x entre 0 y 5 */
+    public void mostrarTabla() {
+        System.out.println("x\t|\tP(x)");
+        System.out.println("-------------------");
+        for (double x = 0.0; x <= 5.0; x += 0.5) {
+            System.out.printf("%.1f\t|\t%.2f%n", x, evaluar(x));
+        }
     }
 
+    /** Método principal de prueba */
     public static void main(String[] args) {
-        Ejercicio4 poli = new Ejercicio4();
+        PolinomioCircular<Double> polinomio = new PolinomioCircular<>();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Ingresa los términos del polinomio (coef exp), termina con exp negativo:");
+        System.out.println("Ingresa los términos del polinomio (coef exp). Termina con exponente negativo:");
         while (true) {
             System.out.print("Coeficiente: ");
-            double c = sc.nextDouble();
+            double coef = sc.nextDouble();
             System.out.print("Exponente: ");
-            int e = sc.nextInt();
-            if (e < 0) break;
-            poli.insertarTermino(c, e);
+            int exp = sc.nextInt();
+            if (exp < 0) break;
+            polinomio.insertarTermino(coef, exp);
         }
 
         System.out.println("\nPolinomio representado:");
-        poli.mostrarPolinomio();
+        polinomio.mostrarPolinomio();
 
         System.out.println("\nTabla de valores:");
-        poli.mostrarTabla();
+        polinomio.mostrarTabla();
+        sc.close();
     }
 }
-

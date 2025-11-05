@@ -5,35 +5,55 @@
 package Pilas;
 
 /**
- *
  * @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * @Autor Sara Lizbeth Serna Rodríguez
  * Grupo: GTID0141
+ * Fecha: 30/10/25
  * EJERCICIO DE PILA -----
- * 30/10/25
  */
+
 import java.util.Stack;
 
 /**
+ * Clase: RevertirLista<T>
+ * 
  * Ejercicio 9: Revertir lista.
  * 
  * Objetivo:
- * - Invertir los elementos de una lista usando una pila.
+ * - Invertir los elementos de una lista utilizando una pila genérica.
+ * 
+ * Descripción:
+ * 1. Se insertan los elementos de una lista en una pila.
+ * 2. Se desapilan para obtener el orden inverso.
+ * 
+ * Parametrización:
+ * - Se usa Stack<T> para permitir el manejo de cualquier tipo de dato.
  */
-public class Revertir {
-    public static void main(String[] args) {
-        int[] lista = {1, 2, 3, 4};
-        Stack<Integer> pila = new Stack<>();
+public class RevertirLista<T> {
 
-        for (int n : lista) {
-            pila.push(n);
+    /**
+     * Método genérico para invertir un arreglo de cualquier tipo.
+     * @param lista arreglo de elementos a invertir
+     */
+    public void invertirLista(T[] lista) {
+        Stack<T> pila = new Stack<>();
+
+        // Apilar elementos
+        for (T elemento : lista) {
+            pila.push(elemento);
         }
 
+        // Mostrar en orden invertido
         System.out.print("Lista invertida: ");
         while (!pila.isEmpty()) {
             System.out.print(pila.pop() + " ");
         }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        RevertirLista<Integer> ejemplo = new RevertirLista<>();
+        Integer[] numeros = {1, 2, 3, 4};
+        ejemplo.invertirLista(numeros);
     }
 }
-// Entrada: [1, 2, 3, 4] → Salida: 4 3 2 1
-

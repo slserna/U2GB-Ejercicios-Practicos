@@ -17,20 +17,42 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- * Ejercicio 3: Simulación de atención al cliente en supermercado Esperanza
- * 
+ * Ejercicio 3: Simulación de atención al cliente en Supermercado Esperanza (parametrizada)
+ *
  * Objetivos:
  * - Aplicar estructuras de cola y simulación temporal.
  * - Implementar lógica condicional y aleatoria.
- * - Generar estadísticas de rendimiento.
+ * - Generar estadísticas de rendimiento configurables.
  */
 public class SupermercadoEsperanza {
 
-    public static void simulacion() {
-        int minutosTotales = 7 * 60; // 7 horas
+    /**
+     * Simula la atención al cliente en un supermercado.
+     *
+     * @param horasDuracion   Número de horas de simulación.
+     * @param numCajasBase    Cantidad de cajas abiertas desde el inicio.
+     * @param umbralApertura4 Umbral de personas en fila para abrir una caja adicional.
+     * @param tiempoMinAt     Tiempo mínimo de atención por cliente (minutos).
+     * @param tiempoMaxAt     Tiempo máximo de atención por cliente (minutos).
+     * @param probLlegada     Probabilidad (0–1) de que llegue un cliente cada minuto.
+     */
+    public static void simulacion(
+            int horasDuracion,
+            int numCajasBase,
+            int umbralApertura4,
+            int tiempoMinAt,
+            int tiempoMaxAt,
+            double probLlegada
+    ) {
+        // Validaciones básicas
+        if (horasDuracion <= 0 || numCajasBase <= 0 || tiempoMinAt <= 0 || tiempoMaxAt < tiempoMinAt) {
+            throw new IllegalArgumentException("Los parámetros deben tener valores válidos y positivos.");
+        }
+
+        int minutosTotales = horasDuracion * 60;
         Queue<Cliente> fila = new LinkedList<>();
-        String[] cajas = new String[4];
-        int[] tiempoRestante = new int[4];
+        String[] cajas = new String[Math.max(numCajasBase, 4)]; // hasta 4 cajas máximo
+        int[] tiempoRestante = new int[cajas.length];
         Random random = new Random();
 
         int totalClientes = 0;
@@ -38,63 +60,83 @@ public class SupermercadoEsperanza {
         int tamMaxFila = 0;
         int sumaTamFila = 0;
         int tiempoEsperaMax = 0;
-        Integer aperturaCaja4 = null;
+        Integer aperturaCajaExtra = null;
+
+        System.out.println("=== INICIO DE SIMULACIÓN SUPERMERCADO ESPERANZA ===");
 
         for (int minuto = 0; minuto < minutosTotales; minuto++) {
-            // Llega un cliente cada minuto en promedio
-            if (random.nextDouble() < 1.0) {
+
+            // 📥 Llega un cliente con cierta probabilidad
+            if (random.nextDouble() < probLlegada) {
                 fila.add(new Cliente(minuto, "Cliente-" + (totalClientes + 1)));
                 totalClientes++;
             }
 
-            // Abrir caja 4 si hay más de 20 personas
-            if (fila.size() > 20 && aperturaCaja4 == null) {
-                aperturaCaja4 = minuto;
-                System.out.println("⚡ Se abrió la cuarta caja en el minuto " + minuto);
+            // ⚡ Apertura de la caja extra si hay demasiada gente
+            if (fila.size() > umbralApertura4 && aperturaCajaExtra == null) {
+                aperturaCajaExtra = minuto;
+                System.out.println("⚡ Se abrió una caja extra en el minuto " + minuto);
             }
 
-            // Asignar clientes a cajas disponibles
-            for (int i = 0; i < 4; i++) {
-                if (i < 3 || aperturaCaja4 != null) {
+            // 🛒 Asignar clientes a cajas disponibles
+            for (int i = 0; i < cajas.length; i++) {
+                // Las primeras n cajas funcionan siempre; la caja extra se abre si es necesario
+                if (i < numCajasBase || aperturaCajaExtra != null) {
                     if (cajas[i] == null && !fila.isEmpty()) {
                         Cliente c = fila.poll();
                         int espera = minuto - c.tiempoLlegada;
                         if (espera > tiempoEsperaMax) tiempoEsperaMax = espera;
                         cajas[i] = c.nombre;
-                        tiempoRestante[i] = 3 + random.nextInt(6); // 3 a 8 min
+                        tiempoRestante[i] = tiempoMinAt + random.nextInt(tiempoMaxAt - tiempoMinAt + 1);
                     }
                 }
             }
 
-            // Reducir tiempos de atención
-            for (int i = 0; i < 4; i++) {
+            // 💳 Reducir tiempos de atención y liberar cajas
+            for (int i = 0; i < cajas.length; i++) {
                 if (cajas[i] != null) {
                     tiempoRestante[i]--;
-                    if (tiempoRestante[i] == 0) {
+                    if (tiempoRestante[i] <= 0) {
                         cajas[i] = null;
                         atendidos++;
                     }
                 }
             }
 
+            // 📊 Estadísticas de fila
             sumaTamFila += fila.size();
             if (fila.size() > tamMaxFila) tamMaxFila = fila.size();
         }
 
-        System.out.println("\n--- Resultados de la simulación ---");
+        // 🧾 Resultados finales
+        System.out.println("\n--- RESULTADOS DE LA SIMULACIÓN ---");
+        System.out.println("Horas simuladas: " + horasDuracion);
         System.out.println("Total de clientes que llegaron: " + totalClientes);
         System.out.println("Total de clientes atendidos: " + atendidos);
-        System.out.println("Tamaño medio de la fila: " + (sumaTamFila / (double) minutosTotales));
+        System.out.printf("Tamaño medio de la fila: %.2f%n", (sumaTamFila / (double) minutosTotales));
         System.out.println("Tamaño máximo de la fila: " + tamMaxFila);
         System.out.println("Tiempo máximo de espera: " + tiempoEsperaMax + " min");
-        System.out.println("Minuto de apertura de la 4ª caja: " + (aperturaCaja4 == null ? "No se abrió" : aperturaCaja4 + " min"));
+        System.out.println("Minuto de apertura de la caja extra: " +
+                (aperturaCajaExtra == null ? "No se abrió" : aperturaCajaExtra + " min"));
+        System.out.println("=== FIN DE LA SIMULACIÓN ===");
     }
 
     public static void main(String[] args) {
-        simulacion();
+        // 🔹 Parámetros configurables
+        int horas = 7;             // duración en horas
+        int cajasIniciales = 3;    // número de cajas abiertas al inicio
+        int umbral = 20;           // cuando la fila supera este número se abre otra caja
+        int tMin = 3;              // tiempo mínimo de atención (minutos)
+        int tMax = 8;              // tiempo máximo de atención (minutos)
+        double probLlegada = 1.0;  // probabilidad de llegada de cliente cada minuto
+
+        simulacion(horas, cajasIniciales, umbral, tMin, tMax, probLlegada);
     }
 }
 
+/**
+ * Clase Cliente: Representa a un cliente con tiempo de llegada y nombre.
+ */
 class Cliente {
     int tiempoLlegada;
     String nombre;
@@ -104,4 +146,3 @@ class Cliente {
         this.nombre = nombre;
     }
 }
-

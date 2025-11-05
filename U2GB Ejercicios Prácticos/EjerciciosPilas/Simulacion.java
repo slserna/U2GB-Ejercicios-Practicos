@@ -5,36 +5,54 @@
 package Pilas;
 
 /**
- @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * @author 12241
+ * @Autor Sara Lizbeth Serna Rodríguez
  * Grupo: GTID0141
+ * Fecha: 30/10/25
  * EJERCICIO DE PILA -----
- * 30/10/25
  */
+
 import java.util.Stack;
 
 /**
+ * Clase: SimulacionPila<T>
+ * 
  * Ejercicio 1: Simulación simple de pila.
  * 
  * Objetivo:
- * - Practicar operaciones básicas de pila: push() y pop().
+ * - Practicar las operaciones básicas de una pila: push() y pop().
  * 
  * Descripción:
  * 1. Se crea una pila vacía.
  * 2. Se insertan los valores 5, 10, 15, 20.
  * 3. Se eliminan dos elementos.
  * 4. Se muestra el contenido restante.
+ * 
+ * Parametrización:
+ * - Se utiliza Stack<T> para permitir manejar pilas de cualquier tipo de dato.
  */
-public class Simulacion {
-    public static void main(String[] args) {
-        Stack<Integer> pila = new Stack<>();
-        pila.push(5);
-        pila.push(10);
-        pila.push(15);
-        pila.push(20);
-        pila.pop();
-        pila.pop();
+public class SimulacionPila<T> {
+
+    public void ejecutarSimulacion(T[] elementos, int pops) {
+        Stack<T> pila = new Stack<>();
+
+        // Insertar elementos
+        for (T e : elementos) {
+            pila.push(e);
+        }
+
+        // Eliminar los elementos indicados
+        for (int i = 0; i < pops && !pila.isEmpty(); i++) {
+            pila.pop();
+        }
+
+        // Mostrar pila actual
         System.out.println("Contenido actual: " + pila);
     }
+
+    public static void main(String[] args) {
+        SimulacionPila<Integer> simulacion = new SimulacionPila<>();
+        Integer[] datos = {5, 10, 15, 20};
+        simulacion.ejecutarSimulacion(datos, 2);
+    }
 }
-// Salida esperada: [5, 10]

@@ -7,80 +7,88 @@ package Five;
 import java.util.Scanner;
 
 /**
- *
- @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * Clase: Polinomio<T>
+ * 
+ * Objetivo:
+ * - Representar un polinomio mediante una lista enlazada genérica.
+ * - Permitir insertar términos y evaluar el polinomio para distintos valores de x.
+ * 
+ * Autor: Sara Lizbeth Serna Rodríguez
  * Grupo: GTID0141
- * EJERCICIO 3 -----
  */
+public class Polinomio<T> {
 
+    /** Clase interna Nodo con encapsulamiento */
+    private class Nodo {
+        private double coeficiente;
+        private int exponente;
+        private Nodo siguiente;
 
-public class Ejercicio3 {
-    Nodo cabeza;
-    
-    
-    class Nodo {
-    double coef;
-    int exp;
-    Nodo sig;
+        public Nodo(double coeficiente, int exponente) {
+            this.coeficiente = coeficiente;
+            this.exponente = exponente;
+            this.siguiente = null;
+        }
 
-    public Nodo(double coef, int exp) {
-        this.coef = coef;
-        this.exp = exp;
-        this.sig = null;
+        public double getCoeficiente() { return coeficiente; }
+        public int getExponente() { return exponente; }
+        public Nodo getSiguiente() { return siguiente; }
+        public void setSiguiente(Nodo siguiente) { this.siguiente = siguiente; }
     }
-}
 
-    // Insertar término al final
-    void insertarTermino(double c, int e) {
-        Nodo nuevo = new Nodo(c, e);
-        if (cabeza == null)
+    private Nodo cabeza;
+
+    /** Inserta un nuevo término al final del polinomio */
+    public void insertarTermino(double coef, int exp) {
+        Nodo nuevo = new Nodo(coef, exp);
+        if (cabeza == null) {
             cabeza = nuevo;
-        else {
+        } else {
             Nodo aux = cabeza;
-            while (aux.sig != null)
-                aux = aux.sig;
-            aux.sig = nuevo;
+            while (aux.getSiguiente() != null) {
+                aux = aux.getSiguiente();
+            }
+            aux.setSiguiente(nuevo);
         }
     }
-    
-    
-    
 
-    // Evaluar polinomio para un valor x
-    double evaluar(double x) {
+    /** Evalúa el polinomio para un valor dado de x */
+    public double evaluar(double x) {
         double resultado = 0;
         Nodo aux = cabeza;
         while (aux != null) {
-            resultado += aux.coef * Math.pow(x, aux.exp);
-            aux = aux.sig;
+            resultado += aux.getCoeficiente() * Math.pow(x, aux.getExponente());
+            aux = aux.getSiguiente();
         }
         return resultado;
     }
 
-    // Mostrar tabla de valores
-    void mostrarTabla() {
-        System.out.println(" x\t|  P(x)");
-        System.out.println("---------------");
-        for (double x = 0.0; x <= 5.0; x += 0.5)
-            System.out.printf("%.1f\t|  %.2f%n", x, evaluar(x));
+    /** Muestra una tabla de valores de P(x) para x entre 0 y 5 con incremento de 0.5 */
+    public void mostrarTabla() {
+        System.out.println("x\t|\tP(x)");
+        System.out.println("-------------------");
+        for (double x = 0.0; x <= 5.0; x += 0.5) {
+            System.out.printf("%.1f\t|\t%.2f%n", x, evaluar(x));
+        }
     }
 
+    /** Método principal para probar la clase Polinomio */
     public static void main(String[] args) {
-        Ejercicio3 poli = new Ejercicio3();
+        Polinomio<Double> polinomio = new Polinomio<>();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Ingresa los términos del polinomio (coef exp), termina con exp negativo:");
+        System.out.println("Ingresa los términos del polinomio (coef exp). Termina con exponente negativo:");
         while (true) {
             System.out.print("Coeficiente: ");
-            double c = sc.nextDouble();
+            double coef = sc.nextDouble();
             System.out.print("Exponente: ");
-            int e = sc.nextInt();
-            if (e < 0) break;
-            poli.insertarTermino(c, e);
+            int exp = sc.nextInt();
+            if (exp < 0) break;
+            polinomio.insertarTermino(coef, exp);
         }
 
         System.out.println("\nTabla de valores del polinomio:");
-        poli.mostrarTabla();
+        polinomio.mostrarTabla();
+        sc.close();
     }
 }

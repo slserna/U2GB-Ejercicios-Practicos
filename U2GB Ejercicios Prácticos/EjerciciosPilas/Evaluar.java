@@ -5,13 +5,13 @@
 package Pilas;
 
 /**
- *
  * @author 12241
- * @Autor Sara Lizbeth Serna Rodriguez
+ * @Autor Sara Lizbeth Serna Rodríguez
  * Grupo: GTID0141
+ * Fecha: 30/10/25
  * EJERCICIO DE PILA -----
- * 30/10/25
  */
+
 import java.util.Stack;
 
 /**
@@ -19,31 +19,57 @@ import java.util.Stack;
  * 
  * Objetivo:
  * - Evaluar expresiones aritméticas en notación polaca inversa (postfija).
+ * 
+ * Descripción:
+ * Este programa utiliza una pila genérica para evaluar expresiones postfijas,
+ * donde los operandos preceden al operador. Por ejemplo, la expresión:
+ * 
+ *     "5 3 + 8 2 - *"
+ * 
+ * equivale a (5 + 3) * (8 - 2) = 48.
+ * 
+ * Parametrización:
+ * - Se usa la clase genérica Stack<T> para manipular operandos de tipo Integer.
  */
-public class Evaluar {
 
+public class Evaluar<T> {
+
+    /**
+     * Método para evaluar una expresión postfija.
+     * 
+     * @param expr expresión aritmética en notación postfija separada por espacios.
+     * @return el resultado entero de la evaluación.
+     */
     public static int evaluar(String expr) {
         Stack<Integer> pila = new Stack<>();
+
         for (String token : expr.split(" ")) {
-            if (token.matches("\\d+")) {
+            if (token.matches("\\d+")) { // Si es número
                 pila.push(Integer.parseInt(token));
-            } else {
+            } else { // Si es operador
                 int b = pila.pop();
                 int a = pila.pop();
+
                 switch (token) {
                     case "+": pila.push(a + b); break;
                     case "-": pila.push(a - b); break;
                     case "*": pila.push(a * b); break;
                     case "/": pila.push(a / b); break;
+                    default:
+                        throw new IllegalArgumentException("Operador no válido: " + token);
                 }
             }
         }
+
         return pila.pop();
     }
 
+    /**
+     * Método principal: prueba de evaluación.
+     */
     public static void main(String[] args) {
-        System.out.println(evaluar("5 3 + 8 2 - *"));
+        String expresion = "5 3 + 8 2 - *";
+        System.out.println("Expresión postfija: " + expresion);
+        System.out.println("Resultado: " + evaluar(expresion));
     }
 }
-// Ejemplo: "5 3 + 8 2 - *" → Salida esperada: 48
-

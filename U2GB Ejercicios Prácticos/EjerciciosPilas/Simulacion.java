@@ -12,7 +12,7 @@ package Pilas;
  * EJERCICIO DE PILA -----
  */
 
-import java.util.Stack;
+import java.util.pila.StackArray;
 
 /**
  * Clase: SimulacionPila<T>

@@ -31,28 +31,22 @@ import java.util.Stack;
  * Parametrización:
  * - Se utiliza Stack<T> para permitir manejar pilas de cualquier tipo de dato.
  */
-public class SimulacionPila<T> {
-
-    public void ejecutarSimulacion(T[] elementos, int pops) {
-        Stack<T> pila = new Stack<>();
-
-        // Insertar elementos
-        for (T e : elementos) {
-            pila.push(e);
-        }
-
-        // Eliminar los elementos indicados
-        for (int i = 0; i < pops && !pila.isEmpty(); i++) {
-            pila.pop();
-        }
-
-        // Mostrar pila actual
-        System.out.println("Contenido actual: " + pila);
-    }
-
+public class Ejercicio1PilaSimple {
     public static void main(String[] args) {
-        SimulacionPila<Integer> simulacion = new SimulacionPila<>();
-        Integer[] datos = {5, 10, 15, 20};
-        simulacion.ejecutarSimulacion(datos, 2);
+        //Se Crea la pila para que guarde los datos 
+        Stack<Integer> pila = new Stack<>();
+        
+        //Insercion de elementos
+        pila.push(5);
+        pila.push(10);
+        pila.push(15);
+        pila.push(20);
+        
+        //Elementos eliminados
+        pila.pop();
+        pila.pop();
+        
+        //Resultado final de la pila
+        System.out.println("Contenido actual: " + pila);
     }
 }

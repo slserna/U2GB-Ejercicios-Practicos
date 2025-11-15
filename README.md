@@ -30,4 +30,7 @@
 | ------------- | ------------- |
 | 1. Simulación simple de pila  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/tree/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosListas)|
 | 2. Pila de nombres  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/tree/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosListas)|
+| Clase Stack Genérica  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/blob/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas/IStack.java)|
+| Clase StackArray con métodos  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/blob/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas/StackArray.java)|
+
 

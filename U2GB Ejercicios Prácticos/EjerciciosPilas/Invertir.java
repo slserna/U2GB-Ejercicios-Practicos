@@ -12,7 +12,7 @@ package Pilas;
  * EJERCICIO DE PILA -----
  * 30/10/25
  */
-import java.util.Stack;
+import java.util.pila.StackArray;
 import java.util.Scanner;
 
 /**
@@ -41,4 +41,5 @@ public class Invertir {
     }
 }
 }
+
 

@@ -26,11 +26,14 @@
 
 [EJERCICIOS PRACTICOS PILAS](https://github.com/slserna/U2GB-Ejercicios-Practicos/tree/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas)
 
- | PRACTIOS | LINKS |
+ | PRACTIOS | LINKS | 
 | ------------- | ------------- |
 | 1. Simulación simple de pila  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/tree/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosListas)|
 | 2. Pila de nombres  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/tree/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosListas)|
+| 3. Verificar si una pila está vacía  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/blob/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas/PilaVacia.java)|
+| 4. Invertir una palabra  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/blob/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas/Invertir.java)|
 | Clase Stack Genérica  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/blob/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas/IStack.java)|
 | Clase Stack con métodos  | [Ver Codigo](https://github.com/slserna/U2GB-Ejercicios-Practicos/blob/main/U2GB%20Ejercicios%20Pr%C3%A1cticos/EjerciciosPilas/Stack.java)|
+
 
 

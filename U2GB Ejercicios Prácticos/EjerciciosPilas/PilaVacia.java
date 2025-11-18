@@ -11,7 +11,7 @@ package Pilas;
  * EJERCICIO DE PILA -----
  * 30/10/25
  */
-import java.util.pila.StackArray;
+import java.util.pila.Stack;
 
 /**
  * Ejercicio 3: Verificar si una pila está vacía.
@@ -32,5 +32,6 @@ public class PilaVacia {
     }
 }
 // Salida esperada: true, false
+
 
 

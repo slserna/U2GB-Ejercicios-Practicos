@@ -13,7 +13,7 @@ package Pilas;
  */
 
 import java.util.Scanner;
-import java.util.pila.StackArray;
+import java.util.pila.Stack;
 
 /**
  * Ejercicio 2: Pila de nombres (versión parametrizada).
